@@ -87,12 +87,14 @@ const char * const failsafeProcedureNames[FAILSAFE_PROCEDURE_COUNT] = {
 #endif
 };
 
+#define MULTIPLICATOR_FACTOR 10  // Change this value to adjust multiplier
+
 /*
  * Should called when the failsafe config needs to be changed - e.g. a different profile has been selected.
  */
 void failsafeReset(void)
 {
-    failsafeState.rxDataFailurePeriod = failsafeConfig()->failsafe_delay * MILLIS_PER_TENTH_SECOND;
+    failsafeState.rxDataFailurePeriod = failsafeConfig()->failsafe_delay * MILLIS_PER_TENTH_SECOND * MULTIPLICATOR_FACTOR;
     if (failsafeState.rxDataFailurePeriod < PERIOD_RXDATA_RECOVERY){
         // avoid transients and ensure reliable arming for minimum of PERIOD_RXDATA_RECOVERY (100ms)
         failsafeState.rxDataFailurePeriod = PERIOD_RXDATA_RECOVERY;
